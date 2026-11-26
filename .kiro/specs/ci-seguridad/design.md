@@ -16,7 +16,7 @@ Se agregan tres gates al workflow de CI (`ci.yml`) para verificar la ausencia de
 | Etapa | Job `secrets`, en paralelo con `sca`, antes de `test` |
 | Razón | Los secretos expuestos en el historial son irreversibles; detectarlos antes de cualquier otra etapa minimiza la ventana de exposición y no requiere instalar dependencias |
 
-**Nota sobre las reglas built-in:** `gitleaks-action@v2` solo detecta formatos de secretos conocidos (AWS keys, GitHub tokens, etc.). El proyecto usa una clave genérica (`CATALOGO_API_KEY`) cuyo valor no coincide con ninguna regla built-in, por lo que se agregó `.gitleaks.toml` con una regla custom que detecta cualquier variable con sufijo `_API_KEY` que contenga un valor de 20 o más caracteres alfanuméricos. Sin esta regla el gate no podría detectar la clave del proyecto.
+**Nota sobre las reglas built-in y la supresión:** `gitleaks-action@v3` (gitleaks >= v8.21) solo detecta formatos de secretos conocidos (AWS keys, GitHub tokens, etc.). Se agregó `.gitleaks.toml` con una regla custom para `*_API_KEY`. La supresión del commit inicial (`7506fec`) se implementa mediante `[[rules.allowlists]]` con `paths = ["config/ejemplo.env"]`: ese archivo es de ejemplo documentado (no es `.env` real) y la clave que contenía fue rotada a `YOUR_API_KEY_HERE`. Se usó `paths` en lugar de `commits` porque `gitleaks-action@v3` escanea diffs de commits y el contexto de commit hash no siempre está disponible como criterio de filtrado en el modo push.
 
 **Cambio respecto a la propuesta base de Kiro:** Kiro no incluyó gate de secretos. Se agregó `gitleaks-action@v3` con `fetch-depth: 0` y una regla custom en `.gitleaks.toml`.
 
