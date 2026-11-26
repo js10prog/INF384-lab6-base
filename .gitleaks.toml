@@ -1,16 +1,22 @@
-﻿# Allowlist global: commits cuya clave ya fue rotada y solo queda en el historial.
-# 7506fec -- commit inicial; contenia CATALOGO_API_KEY real, reemplazada por placeholder.
-[allowlist]
-commits = ["7506fecff32b342baaa4aa5dcb595bb5ccc75634"]
+﻿# .gitleaks.toml — configuracion de gitleaks para el proyecto malla-inf
+# Compatible con gitleaks >= v8.21 (gitleaks-action@v3)
 
 # Regla personalizada: detectar variables con sufijo _API_KEY que tengan valor real.
 [[rules]]
 id          = "generic-api-key"
-description = "Variable de entorno con sufijo _API_KEY contiene un valor que parece una clave real"
-regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*[A-Za-z0-9/+]{20,}'''
-secretGroup = 0
+description = "Variable con sufijo _API_KEY contiene un valor que parece una clave real"
+regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*([A-Za-z0-9/+]{20,})'''
+secretGroup = 1
 
-  [rules.allowlist]
+  # Ignorar placeholders conocidos
+  [[rules.allowlists]]
+  description = "Placeholders — no son credenciales reales"
+  regexTarget = "secret"
   regexes = [
-    "(?i)(your.?api.?key|placeholder|example|changeme|YOUR_API_KEY_HERE)"
+    '''(?i)(your.?api.?key|placeholder|example|changeme|YOUR_API_KEY_HERE)'''
   ]
+
+  # Ignorar el commit inicial donde la clave ya fue rotada
+  [[rules.allowlists]]
+  description = "Commit inicial — CATALOGO_API_KEY rotada, ya reemplazada por placeholder"
+  commits = ["7506fecff32b342baaa4aa5dcb595bb5ccc75634"]
