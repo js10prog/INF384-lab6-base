@@ -1,0 +1,7 @@
+﻿# Este archivo suprime detecciones de gitleaks para secretos ya rotados.
+# Formato: <hash-del-commit>:<id-de-regla>
+#
+# config/ejemplo.env — CATALOGO_API_KEY
+# La clave Q7mZk2Rv9XpL4tWc8NbJ3hYf6GsD1aEu fue rotada y reemplazada por un placeholder.
+# El commit 7506fec quedó en el historial; se suprime aquí porque la clave ya no es válida.
+7506fec:generic-api-key

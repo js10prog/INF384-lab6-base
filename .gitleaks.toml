@@ -1,0 +1,13 @@
+﻿# Regla personalizada: detectar cualquier variable cuyo nombre termine en _API_KEY
+# con un valor que no sea un placeholder conocido.
+[[rules]]
+id          = "generic-api-key"
+description = "Variable de entorno con sufijo _API_KEY contiene un valor que parece una clave real"
+regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*["''`]?([A-Za-z0-9/+]{20,})["''`]?'''
+secretGroup = 1
+
+[rules.allowlist]
+regexes = [
+  # Placeholders explícitos — no son credenciales reales
+  "(?i)(your[-_]?api[-_]?key|placeholder|example|changeme|<.*>|\\$\\{.*\\})"
+]
