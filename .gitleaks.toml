@@ -11,3 +11,8 @@ regexes = [
   # Placeholders explícitos — no son credenciales reales
   "(?i)(your[-_]?api[-_]?key|placeholder|example|changeme|<.*>|\\$\\{.*\\})"
 ]
+
+# Supresión global: commits donde la clave ya fue rotada y queda solo en el historial.
+# 7506fec — commit inicial; contenía CATALOGO_API_KEY real, ya reemplazada por placeholder.
+[allowlist]
+commits = ["7506fecff32b342baaa4aa5dcb595bb5ccc75634"]
