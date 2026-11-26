@@ -1,6 +1,3 @@
-﻿# .gitleaksignore — supresiones por fingerprint SHA256 de hallazgos gitleaks.
-# La supresión del commit inicial (7506fec) se maneja en .gitleaks.toml [allowlist]
-# porque el fingerprint exacto solo es obtenible ejecutando gitleaks localmente.
-# Cuando se instale gitleaks localmente, correr:
-#   gitleaks detect --config .gitleaks.toml --report-format json --report-path findings.json
-# y copiar el campo "Fingerprint" de cada hallazgo suprimido aquí.
+﻿# Fingerprint formato: <commit>:<archivo>:<regla>:<linea>
+# CATALOGO_API_KEY en commit inicial -- clave ya rotada a placeholder.
+7506fecff32b342baaa4aa5dcb595bb5ccc75634:config/ejemplo.env:generic-api-key:4

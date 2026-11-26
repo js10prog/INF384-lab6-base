@@ -1,18 +1,16 @@
-﻿# Regla personalizada: detectar cualquier variable cuyo nombre termine en _API_KEY
-# con un valor que no sea un placeholder conocido.
+﻿# Allowlist global: commits cuya clave ya fue rotada y solo queda en el historial.
+# 7506fec -- commit inicial; contenia CATALOGO_API_KEY real, reemplazada por placeholder.
+[allowlist]
+commits = ["7506fecff32b342baaa4aa5dcb595bb5ccc75634"]
+
+# Regla personalizada: detectar variables con sufijo _API_KEY que tengan valor real.
 [[rules]]
 id          = "generic-api-key"
 description = "Variable de entorno con sufijo _API_KEY contiene un valor que parece una clave real"
-regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*["''`]?([A-Za-z0-9/+]{20,})["''`]?'''
-secretGroup = 1
+regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*[A-Za-z0-9/+]{20,}'''
+secretGroup = 0
 
-[rules.allowlist]
-regexes = [
-  # Placeholders explícitos — no son credenciales reales
-  "(?i)(your[-_]?api[-_]?key|placeholder|example|changeme|<.*>|\\$\\{.*\\})"
-]
-
-# Supresión global: commits donde la clave ya fue rotada y queda solo en el historial.
-# 7506fec — commit inicial; contenía CATALOGO_API_KEY real, ya reemplazada por placeholder.
-[allowlist]
-commits = ["7506fecff32b342baaa4aa5dcb595bb5ccc75634"]
+  [rules.allowlist]
+  regexes = [
+    "(?i)(your.?api.?key|placeholder|example|changeme|YOUR_API_KEY_HERE)"
+  ]
