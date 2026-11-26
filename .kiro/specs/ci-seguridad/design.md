@@ -10,7 +10,7 @@ Se agregan tres gates al workflow de CI (`ci.yml`) para verificar la ausencia de
 
 | Atributo | Valor |
 | --- | --- |
-| Herramienta | `gitleaks/gitleaks-action@v2` con `.gitleaks.toml` de reglas personalizadas |
+| Herramienta | `gitleaks/gitleaks-action@v3` con `.gitleaks.toml` de reglas personalizadas |
 | Umbral | Cualquier secreto detectado en el historial completo del repositorio (`fetch-depth: 0`) |
 | Comportamiento | **Bloquea**: el job falla con exit code ≠ 0; el job `test` no se ejecuta (`needs: [secrets, sca]`) |
 | Etapa | Job `secrets`, en paralelo con `sca`, antes de `test` |
@@ -18,7 +18,7 @@ Se agregan tres gates al workflow de CI (`ci.yml`) para verificar la ausencia de
 
 **Nota sobre las reglas built-in:** `gitleaks-action@v2` solo detecta formatos de secretos conocidos (AWS keys, GitHub tokens, etc.). El proyecto usa una clave genérica (`CATALOGO_API_KEY`) cuyo valor no coincide con ninguna regla built-in, por lo que se agregó `.gitleaks.toml` con una regla custom que detecta cualquier variable con sufijo `_API_KEY` que contenga un valor de 20 o más caracteres alfanuméricos. Sin esta regla el gate no podría detectar la clave del proyecto.
 
-**Cambio respecto a la propuesta base de Kiro:** Kiro no incluyó gate de secretos. Se agregó `gitleaks-action@v2` con `fetch-depth: 0` y una regla custom en `.gitleaks.toml`.
+**Cambio respecto a la propuesta base de Kiro:** Kiro no incluyó gate de secretos. Se agregó `gitleaks-action@v3` con `fetch-depth: 0` y una regla custom en `.gitleaks.toml`.
 
 ---
 

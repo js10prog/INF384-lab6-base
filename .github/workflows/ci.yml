@@ -8,23 +8,24 @@ on:
 
 jobs:
   secrets:
-    name: Detección de secretos (gitleaks)
+    name: Deteccion de secretos (gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Escanear secretos
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
 
   sca:
-    name: Análisis de composición de software (npm audit)
+    name: Analisis de composicion de software (npm audit)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v4
         with:
@@ -34,15 +35,15 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      - name: Auditoría de dependencias
+      - name: Auditoria de dependencias
         run: npm audit --audit-level=high
 
   test:
-    name: Pruebas unitarias e integración
+    name: Pruebas unitarias e integracion
     needs: [secrets, sca]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v4
         with:
