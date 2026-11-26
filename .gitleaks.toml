@@ -1,23 +1,16 @@
-﻿# .gitleaks.toml — configuracion de gitleaks para el proyecto malla-inf
-# Compatible con gitleaks >= v8.21 (gitleaks-action@v3)
+﻿title = "gitleaks config malla-inf"
 
-# Regla personalizada: detectar variables con sufijo _API_KEY que tengan valor real.
 [[rules]]
 id          = "generic-api-key"
 description = "Variable con sufijo _API_KEY contiene un valor que parece una clave real"
 regex       = '''(?i)[A-Z0-9_]*API_KEY\s*=\s*([A-Za-z0-9/+]{20,})'''
 secretGroup = 1
 
-  # Ignorar placeholders conocidos en el valor del secreto
-  [[rules.allowlists]]
-  description = "Placeholders — no son credenciales reales"
-  regexTarget = "secret"
-  regexes = [
-    '''(?i)(your.?api.?key|placeholder|example|changeme|YOUR_API_KEY_HERE)'''
-  ]
+[[rules.allowlists]]
+description = "Placeholders conocidos"
+regexTarget = "secret"
+regexes = ['''(?i)(your.?api.?key|placeholder|example|changeme|YOUR_API_KEY_HERE)''']
 
-  # Ignorar config/ejemplo.env: es un archivo de ejemplo documentado,
-  # no un archivo de configuracion real. La clave fue rotada.
-  [[rules.allowlists]]
-  description = "Archivo de ejemplo — valores ilustrativos, no credenciales reales"
-  paths = ['''config/ejemplo\.env''']
+[[rules.allowlists]]
+description = "Archivo de ejemplo - clave ya rotada"
+paths = ['''ejemplo\.env''']
